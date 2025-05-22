@@ -12,5 +12,5 @@ Feature: Bar access and orders
         And Mr Leblanc pays for both cocktails
         And they finish their drinks
         Then the bar is full
-        Then the total bill for Mr Leblanc is 20 euros
-        Then Mr Pignon is happy
+        And the total bill for Mr Leblanc is 20 euros
+        And Mr Pignon is happy
