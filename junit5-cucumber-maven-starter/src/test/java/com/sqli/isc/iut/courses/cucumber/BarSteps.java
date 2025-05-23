@@ -14,19 +14,26 @@ public class BarSteps {
     private boolean canEnter;
     private final int MAX_NUMBER_OF_PEOPLE = 10;
     private Bar bar = new Bar(MAX_NUMBER_OF_PEOPLE);
+    
+    private Customer mr_pignon = new Customer();
+    private Customer mr_leblanc = new Customer();
+
 
     @Given("the bar has {int} customers")
     public void the_bar_has_customers(int count) {
-        bar.setNumberOfCustomer(count);
+        bar.fillBar(count);
     }
 
     @When("Mr Pignon and Mr Leblanc try to enter")
     public void try_to_enter() {
-        canEnter = bar.peopleTryToEnter(2);
+        boolean canEnter = bar.tryEnter(mr_pignon, mr_leblanc);
     }
     
     @When("they each order a cocktail of the month at {int} euros")
     public void each_order_cocktail(int price) {
+        bar.orderCockail(mr_leblanc, price);
+        bar.orderCockail(mr_pignon, price);
+
         bar.setCocktailPrice(price);
     }
     
@@ -47,7 +54,7 @@ public class BarSteps {
     
     @Then("the bar is full")
     public void bar_is_full() {
-            assertEquals(MAX_NUMBER_OF_PEOPLE, bar.getNumberOfPeople());
+        assertEquals(MAX_NUMBER_OF_PEOPLE, bar.getNumberOfPeople());
     }
     
     @Then("the total bill for Mr Leblanc is {int} euros")

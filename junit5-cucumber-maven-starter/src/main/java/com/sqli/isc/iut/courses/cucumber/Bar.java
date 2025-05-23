@@ -1,29 +1,60 @@
 package com.sqli.isc.iut.courses.cucumber;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
+
 /**
  *
  * @author chapinet
  */
 public class Bar {
     
-    private int numberOfPeople;
-    private int maxNumberOfPeople;
-    private int bill;
-    private int cocktailPrice;
-    private int numberOfCocktail;
-    private boolean isPignonHappy;
+    private ArrayList<Customer> customers;
+    private ArrayList<Customer> queue;
+    private HashMap<Customer, Integer> orders;
     
-    Bar(int maxNumberOfPeople){
-        this.numberOfPeople = 0;
-        this.maxNumberOfPeople = maxNumberOfPeople;
-        this.bill = 0;
-        this.cocktailPrice = 0;
-        this.numberOfCocktail = 0;
-        this.isPignonHappy = true;
+    private final int MAX_CAPACITY;
+    
+    Bar(int maxCapacity){
+        this.customers = new ArrayList<>();
+        this.queue = new ArrayList<>();
+        this.orders = new HashMap<>();
+        this.MAX_CAPACITY = maxCapacity;
+    }
+    
+    public void fillBar(int customersNb){
+        for (int i = 0; i < customersNb; i++) {
+            customers.add(new Customer());
+        }
+    }
+    
+    /*public void tryEnter(Customer... customersTryingEnter){
+        boolean canEnter = customersTryingEnter.length > (MAX_CAPACITY - customers.size());
+        for (Customer c : customersTryingEnter){
+            if (canEnter){
+                customers.add(c);
+            }else{
+                queue.add(c);
+            }
+        }
+    }*/
+    
+    public boolean tryEnter(Customer... customersTryingEnter){
+        boolean canEnter = customersTryingEnter.length > (MAX_CAPACITY - customers.size());
+        if (canEnter){
+            customers.addAll(Arrays.asList(customersTryingEnter));
+        }
+        return canEnter;
     }
     
     int getNumberOfPeople() {
-        return this.numberOfPeople;
+        return this.customers.size();
+    }
+    
+    void orderCockail(Customer c, int price){
+        orders.put(c, price);
     }
 
     void setNumberOfCustomer(int count) {
