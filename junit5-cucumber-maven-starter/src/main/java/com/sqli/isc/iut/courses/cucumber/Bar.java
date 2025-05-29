@@ -2,8 +2,6 @@ package com.sqli.isc.iut.courses.cucumber;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-
 
 /**
  *
@@ -11,16 +9,11 @@ import java.util.HashMap;
  */
 public class Bar {
     
-    private ArrayList<Customer> customers;
-    private ArrayList<Customer> queue;
-    private HashMap<Customer, Integer> orders;
-    
+    private ArrayList<Customer> customers;    
     private final int MAX_CAPACITY;
     
     Bar(int maxCapacity){
         this.customers = new ArrayList<>();
-        this.queue = new ArrayList<>();
-        this.orders = new HashMap<>();
         this.MAX_CAPACITY = maxCapacity;
     }
     
@@ -30,19 +23,8 @@ public class Bar {
         }
     }
     
-    /*public void tryEnter(Customer... customersTryingEnter){
-        boolean canEnter = customersTryingEnter.length > (MAX_CAPACITY - customers.size());
-        for (Customer c : customersTryingEnter){
-            if (canEnter){
-                customers.add(c);
-            }else{
-                queue.add(c);
-            }
-        }
-    }*/
-    
     public boolean tryEnter(Customer... customersTryingEnter){
-        boolean canEnter = customersTryingEnter.length > (MAX_CAPACITY - customers.size());
+        boolean canEnter = customersTryingEnter.length <= (MAX_CAPACITY - customers.size());
         if (canEnter){
             customers.addAll(Arrays.asList(customersTryingEnter));
         }
@@ -54,37 +36,16 @@ public class Bar {
     }
     
     void orderCockail(Customer c, int price){
-        orders.put(c, price);
+        c.drunkCocktail(1, price);
     }
-
-    void setNumberOfCustomer(int count) {
-        numberOfPeople = count;
+    
+    void transferBill(Customer rich, Customer poor){
+        rich.setBill(rich.getBill() + poor.getBill());
+        poor.setBill(0);
     }
-
-    boolean peopleTryToEnter(int i) {
-        boolean canEnter = numberOfPeople + i <= maxNumberOfPeople;
-        if (canEnter) numberOfPeople += i;
-        return canEnter;
+    
+    void transferOneCocktail(Customer rich, Customer poor, int priceOneCocktail){
+        rich.setBill(rich.getBill() + priceOneCocktail);
+        poor.setBill(poor.getBill() - priceOneCocktail);
     }
-
-    void setCocktailPrice(int price) {
-        cocktailPrice = price;
-    }
-
-    void addCocktailToBill(int numberOfCocktail) {
-        bill += cocktailPrice * numberOfCocktail;
-    }
-
-    int getBill() {
-        return bill;
-    }
-
-    void drinkFinished() {
-        isPignonHappy = numberOfCocktail/2 <= 1;
-    }
-
-    boolean isPignonHappy() {
-        return isPignonHappy;
-    }
-
 }

@@ -10,7 +10,16 @@ Feature: Bar access and orders
         When Mr Pignon and Mr Leblanc try to enter
         And they each order a cocktail of the month at 10 euros
         And Mr Leblanc pays for both cocktails
-        And they finish their drinks
         Then the bar is full
         And the total bill for Mr Leblanc is 20 euros
         And Mr Pignon is happy
+
+    Scenario: Mr Pignon and Mr Leblanc drink, pay separately, and Mr Leblanc orders more
+        Given the bar has 3 customers
+        When Mr Pignon and Mr Leblanc try to enter
+        And they each order a cocktail of the month at 10 euros
+        And Mr Leblanc orders 2 more cocktails of the month at 10 euros each
+        Then the total bill for Mr Pignon is 10 euros
+        And the total bill for Mr Leblanc is 30 euros
+        And Mr Pignon is sad
+
